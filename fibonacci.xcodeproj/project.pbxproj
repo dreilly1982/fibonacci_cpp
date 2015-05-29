@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F66246B51B17A19200D54D08 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F66246B41B17A19200D54D08 /* main.cpp */; };
+		F66246BD1B17A29400D54D08 /* bigint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F66246BB1B17A29400D54D08 /* bigint.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		F66246B11B17A19200D54D08 /* fibonacci */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = fibonacci; sourceTree = BUILT_PRODUCTS_DIR; };
 		F66246B41B17A19200D54D08 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		F66246BB1B17A29400D54D08 /* bigint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bigint.cpp; sourceTree = "<group>"; };
+		F66246BC1B17A29400D54D08 /* bigint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bigint.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				F66246B41B17A19200D54D08 /* main.cpp */,
+				F66246BB1B17A29400D54D08 /* bigint.cpp */,
+				F66246BC1B17A29400D54D08 /* bigint.h */,
 			);
 			path = fibonacci;
 			sourceTree = "<group>";
@@ -118,6 +123,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F66246BD1B17A29400D54D08 /* bigint.cpp in Sources */,
 				F66246B51B17A19200D54D08 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,9 +7,30 @@
 //
 
 #include <iostream>
+#include "bigint.h"
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    int x[15] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    int y[15] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    int z[15] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    
+    bigint a (x);
+    bigint b (y);
+    bigint c (z);
+    int d = 1466;
+    
+    d -= 2;
+    std::cout << a << "\n";
+    std::cout << b << "\n";
+    c = a + b;
+    
+    while(d) {
+        std::cout << c << "\n";
+        a = b;
+        b = c;
+        c = a + b;
+        d--;
+    }
+    
     return 0;
 }
