@@ -11,29 +11,16 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <vector>
 
 typedef unsigned long long u64b;
 typedef __uint128_t u128b;
 
 class bigint {
-    u64b exlolo;
-    u64b exlomid;
-    u64b exlohi;
-    u64b lolo;
-    u64b lomid;
-    u64b lohi;
-    u64b midlo;
-    u64b midmid;
-    u64b midhi;
-    u64b hilo;
-    u64b himid;
-    u64b hihi;
-    u64b exhilo;
-    u64b exhimid;
-    u128b exhihi;
+    std::vector<u64b> v;
     
 public:
-    bigint (int (&n)[15]);
+    bigint (int n);
     bigint operator+(const bigint& obj);
     void operator=(const bigint& obj);
     friend std::ostream& operator<<(std::ostream& stream, const bigint& obj);

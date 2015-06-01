@@ -7,25 +7,24 @@
 //
 
 #include <iostream>
+#include <fstream>
 #include "bigint.h"
+#define LIMIT 2000
 
 int main(int argc, const char * argv[]) {
-    int x[15] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    int y[15] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    int z[15] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    
-    bigint a (x);
-    bigint b (y);
-    bigint c (z);
-    int d = 1466;
-    
+	
+    bigint a (0);
+    bigint b (1);
+    bigint c (0);
+    int d = LIMIT;
+
     d -= 2;
-    std::cout << a << "\n";
-    std::cout << b << "\n";
+    std::cout << "0 " << a << "\n";
+    std::cout << "1 " << b << "\n";
     c = a + b;
     
-    while(d) {
-        std::cout << c << "\n";
+    while(d + 1) {
+        std::cout << LIMIT - d << " " << c << "\n";
         a = b;
         b = c;
         c = a + b;
