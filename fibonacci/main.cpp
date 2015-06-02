@@ -9,10 +9,10 @@
 #include <iostream>
 #include <fstream>
 #include "bigint.h"
-#define LIMIT 2000
+#define LIMIT 20000
 
 int main(int argc, const char * argv[]) {
-	
+    
     bigint a (0);
     bigint b (1);
     bigint c (0);
