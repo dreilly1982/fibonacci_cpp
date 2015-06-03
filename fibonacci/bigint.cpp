@@ -10,6 +10,8 @@
 #include <math.h>
 #include <algorithm>
 
+#define putchar_unlocked putchar
+
 const u64b u64b_max = 18446744073709551615ull;
 
 bigint::bigint (int n)
@@ -25,30 +27,70 @@ void bigint::operator=(const bigint& obj)
 
 bigint bigint::operator+(const bigint& obj2)
 {
-    bigint result = *this;
-    
-    // Need to make a mutable object
-    bigint object2 = obj2;
-    
+    bigint obj1 = *this;
+    int i;
     // Use 128-Bit integer to allow for carry over
-    std::vector<u128b> tmp_vector(1);
+    //u64b carryover;
+	std::vector<u128b> result;
     
-    if (result.v.size() < object2.v.size() )
+    if (obj1.v.size() < obj2.v.size() )
     {
-        result.v.resize(object2.v.size());
-        tmp_vector.resize(object2.v.size());
+		result.resize(obj2.v.size());
+        for (i = 0; i < (int) obj1.v.size(); i++)
+		{
+			// Long addition.  Start small, then carry over to larger
+			if (i == 0)
+			{
+				result[i] = (u128b) obj1.v[i] + obj2.v[i];
+			}
+			else
+			{
+				result[i] = (u128b) obj1.v[i] + obj2.v[i] + (result[i-1] >> 64);
+			}
+		}
+		
+		for (; i < (int) obj2.v.size(); ++i) result[i] = (u128b) obj2.v[i] + (result[i-1] >> 64);
+		if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);
     }
-    else if(result.v.size() > object2.v.size())
+    else if(obj1.v.size() > obj2.v.size())
     {
-        object2.v.resize(result.v.size()); 
-        tmp_vector.resize(object2.v.size());
+        result.resize(obj1.v.size());
+        for (i = 0; i < (int) obj2.v.size(); i++)
+		{
+			// Long addition.  Start small, then carry over to larger
+			if (i == 0)
+			{
+				result[i] = (u128b) obj1.v[i] + obj2.v[i];
+			}
+			else
+			{
+				result[i] = (u128b) obj1.v[i] + obj2.v[i] + (result[i-1] >> 64);
+			}
+		}
+		
+		for (; i < (int) obj1.v.size(); ++i) result[i] = (u128b) obj1.v[i] + (result[i-1] >> 64);
+		if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);
     }
     else
     {
-        tmp_vector.resize(result.v.size());
+        result.resize(obj1.v.size());
+        for (i = 0; i < (int) obj2.v.size(); i++)
+		{
+			// Long addition.  Start small, then carry over to larger
+			if (i == 0)
+			{
+				result[i] = (u128b) obj1.v[i] + obj2.v[i];
+			}
+			else
+			{
+				result[i] = (u128b) obj1.v[i] + obj2.v[i] + (result[i-1] >> 64);
+			}
+		}
+		
+		if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);
     }
     
-    for (size_t i = 0; i < result.v.size(); i++)
+    /*for (size_t i = 0; i < result.v.size(); i++)
     {
         // Long addition.  Start small, then carry over to larger
         if (i == 0)
@@ -67,38 +109,33 @@ bigint bigint::operator+(const bigint& obj2)
             object2.v.resize(result.v.size() * 2);
             result.v.resize(result.v.size() * 2);
         }
-    }
+    }*/
+	
+	obj1.v.resize(result.size());
     
-    for (size_t i = 0; i < result.v.size(); i++)
+    for (int i = 0; i < (int)result.size(); i++)
     {
-        result.v[i] = tmp_vector[i];
+        obj1.v[i] = result[i];
     }
-    return result;
+	
+    return obj1;
 }
 
 std::ostream& operator<<(std::ostream& stream, const bigint& n)
 {
-<<<<<<< HEAD
     int g = 0;
-    for (int i = 0; i < n.v.size(); i++)
+    for (int i = 0; i < (int) n.v.size(); i++)
     {
         if (n.v[i] != 0) g = i + 1;
     }
     int k = (int) floor(19.265919722494793 * g) + 1;
-=======
-    int k = (int) floor(19.265919722494793 * n.v.size()) + 1;
->>>>>>> 733038a3555e42ef666977a14288b1ed580abcb8
     std::vector<int> d (k);
     int i, j;
     std::fill(d.begin(), d.end(), 0);
     
     // Split integer into an array where each element matches the proper place
     // Tens, hundreds, thousands, etc..
-<<<<<<< HEAD
     for(int l = (int)n.v.size() - 1; l > -1; l--)
-=======
-    for(int l = n.v.size() - 1; l > -1; l--)
->>>>>>> 733038a3555e42ef666977a14288b1ed580abcb8
     {
         if (l == 0)
         {
@@ -150,7 +187,7 @@ std::ostream& operator<<(std::ostream& stream, const bigint& n)
 
 void print_bigint(const bigint& n) {
     int g = 0;
-    for (int i = 0; i < n.v.size(); i++)
+    for (int i = 0; i < (int) n.v.size(); i++)
     {
         if (n.v[i] != 0) g = i + 1;
     }
