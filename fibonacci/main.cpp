@@ -9,7 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include "bigint.h"
-#define LIMIT 20000
+#define LIMIT 50000
 
 int main(int argc, const char * argv[]) {
     
@@ -19,12 +19,12 @@ int main(int argc, const char * argv[]) {
     int d = LIMIT;
 
     d -= 2;
-    std::cout << "0 " << a << "\n";
-    std::cout << "1 " << b << "\n";
+    //std::cout << "0 " << a << std::endl;
+    //std::cout << "1 " << b << std::endl;
     c = a + b;
     
     while(d + 1) {
-        std::cout << LIMIT - d << " " << c << "\n";
+        //std::cout << LIMIT - d << " " << c << std::endl;
         a = b;
         b = c;
         c = a + b;

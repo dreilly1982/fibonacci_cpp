@@ -19,13 +19,15 @@ typedef __uint128_t u128b;
 class bigint {
     
     // Split into multiple 64-bit integers in a vector
-    std::vector<u64b> v;
+    
     
 public:
+    std::vector<u64b> v;
     bigint (int n);
     bigint operator+(const bigint& obj);
     void operator=(const bigint& obj);
     friend std::ostream& operator<<(std::ostream& stream, const bigint& obj);
+    friend void print_bigint(const bigint& n);
 };
 
 #endif /* defined(__fibonacci__bigint__) */
