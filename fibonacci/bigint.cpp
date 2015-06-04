@@ -27,13 +27,33 @@ void bigint::operator=(const bigint& obj)
 
 bigint bigint::operator+(const bigint& obj2)
 {
-    bigint obj1 = *this;
+	bigint obj1 = (*this);
+    std::vector<u64b> vector1 = obj1.v;
+	std::vector<u64b> vector2 = obj2.v;
     int i;
     // Use 128-Bit integer to allow for carry over
     //u64b carryover;
 	std::vector<u128b> result;
-    
-    if (obj1.v.size() < obj2.v.size() )
+	
+	if (vector1.size() < vector2.size()) std::swap(vector1, vector2);
+	result.resize(vector1.size());
+	for (i = 0; i < (int) vector2.size(); i++)
+	{
+		// Long addition.  Start small, then carry over to larger
+		if (i == 0)
+		{
+			result[i] = (u128b) vector1[i] + vector2[i];
+		}
+		else
+		{
+			result[i] = (u128b) vector1[i] + vector2[i] + (result[i-1] >> 64);
+		}
+	}
+	
+	for (; i < (int) vector1.size(); ++i) result[i] = (u128b) vector1[i] + (result[i-1] >> 64);
+	if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);
+
+    /*if (obj1.v.size() < obj2.v.size() )
     {
 		result.resize(obj2.v.size());
         for (i = 0; i < (int) obj1.v.size(); i++)
@@ -88,7 +108,7 @@ bigint bigint::operator+(const bigint& obj2)
 		}
 		
 		if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);
-    }
+    }*/
     
     /*for (size_t i = 0; i < result.v.size(); i++)
     {
@@ -111,7 +131,7 @@ bigint bigint::operator+(const bigint& obj2)
         }
     }*/
 	
-	obj1.v.resize(result.size());
+	if (obj1.v.size() < result.size()) obj1.v.resize(result.size());
     
     for (int i = 0; i < (int)result.size(); i++)
     {
