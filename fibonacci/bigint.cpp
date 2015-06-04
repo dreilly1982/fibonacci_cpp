@@ -27,15 +27,12 @@ void bigint::operator=(const bigint& obj)
 
 bigint bigint::operator+(const bigint& obj2)
 {
-	bigint obj1 = (*this);
-    std::vector<u64b> vector1 = obj1.v;
-	std::vector<u64b> vector2 = obj2.v;
-    int i;
+	int i;
     // Use 128-Bit integer to allow for carry over
     //u64b carryover;
 	std::vector<u128b> result;
 	
-	if (vector1.size() < vector2.size()) std::swap(vector1, vector2);
+	/*if (vector1.size() < vector2.size()) std::swap(vector1, vector2);
 	result.resize(vector1.size());
 	for (i = 0; i < (int) vector2.size(); i++)
 	{
@@ -51,64 +48,64 @@ bigint bigint::operator+(const bigint& obj2)
 	}
 	
 	for (; i < (int) vector1.size(); ++i) result[i] = (u128b) vector1[i] + (result[i-1] >> 64);
-	if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);
+	if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);*/
 
-    /*if (obj1.v.size() < obj2.v.size() )
+    if (this->v.size() < obj2.v.size() )
     {
 		result.resize(obj2.v.size());
-        for (i = 0; i < (int) obj1.v.size(); i++)
+        for (i = 0; i < (int) this->v.size(); i++)
 		{
 			// Long addition.  Start small, then carry over to larger
 			if (i == 0)
 			{
-				result[i] = (u128b) obj1.v[i] + obj2.v[i];
+				result[i] = this->v[i] + obj2.v[i];
 			}
 			else
 			{
-				result[i] = (u128b) obj1.v[i] + obj2.v[i] + (result[i-1] >> 64);
+				result[i] = this->v[i] + obj2.v[i] + (result[i-1] >> 64);
 			}
 		}
 		
-		for (; i < (int) obj2.v.size(); ++i) result[i] = (u128b) obj2.v[i] + (result[i-1] >> 64);
-		if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);
+		for (; i < (int) obj2.v.size(); ++i) result[i] = obj2.v[i] + (result[i-1] >> 64);
+		if (result[i-1] > u64b_max) result.push_back(result[i-1] >> 64);
     }
-    else if(obj1.v.size() > obj2.v.size())
+    else if(this->v.size() > obj2.v.size())
     {
-        result.resize(obj1.v.size());
+        result.resize(this->v.size());
         for (i = 0; i < (int) obj2.v.size(); i++)
 		{
 			// Long addition.  Start small, then carry over to larger
 			if (i == 0)
 			{
-				result[i] = (u128b) obj1.v[i] + obj2.v[i];
+				result[i] = this->v[i] + obj2.v[i];
 			}
 			else
 			{
-				result[i] = (u128b) obj1.v[i] + obj2.v[i] + (result[i-1] >> 64);
+				result[i] = this->v[i] + obj2.v[i] + (result[i-1] >> 64);
 			}
 		}
 		
-		for (; i < (int) obj1.v.size(); ++i) result[i] = (u128b) obj1.v[i] + (result[i-1] >> 64);
-		if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);
+		for (; i < (int) this->v.size(); ++i) result[i] = this->v[i] + (result[i-1] >> 64);
+		if (result[i-1] > u64b_max) result.push_back(result[i-1] >> 64);
     }
     else
     {
-        result.resize(obj1.v.size());
+        result.resize(this->v.size());
         for (i = 0; i < (int) obj2.v.size(); i++)
 		{
 			// Long addition.  Start small, then carry over to larger
 			if (i == 0)
 			{
-				result[i] = (u128b) obj1.v[i] + obj2.v[i];
+				result[i] = this->v[i] + obj2.v[i];
 			}
 			else
 			{
-				result[i] = (u128b) obj1.v[i] + obj2.v[i] + (result[i-1] >> 64);
+				result[i] = this->v[i] + obj2.v[i] + (result[i-1] >> 64);
 			}
 		}
 		
-		if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);
-    }*/
+		if (result[i-1] > u64b_max) result.push_back(result[i-1] >> 64);
+    }
     
     /*for (size_t i = 0; i < result.v.size(); i++)
     {
@@ -131,14 +128,14 @@ bigint bigint::operator+(const bigint& obj2)
         }
     }*/
 	
-	if (obj1.v.size() < result.size()) obj1.v.resize(result.size());
+	if (this->v.size() < result.size()) this->v.resize(result.size());
     
-    for (int i = 0; i < (int)result.size(); i++)
+    for (int i = 0; i < (int) result.size(); i++)
     {
-        obj1.v[i] = result[i];
+        this->v[i] = result[i];
     }
 	
-    return obj1;
+    return *this;
 }
 
 std::ostream& operator<<(std::ostream& stream, const bigint& n)
@@ -155,7 +152,7 @@ std::ostream& operator<<(std::ostream& stream, const bigint& n)
     
     // Split integer into an array where each element matches the proper place
     // Tens, hundreds, thousands, etc..
-    for(int l = (int)n.v.size() - 1; l > -1; l--)
+    for(int l = n.v.size() - 1; l > -1; l--)
     {
         if (l == 0)
         {
@@ -205,7 +202,7 @@ std::ostream& operator<<(std::ostream& stream, const bigint& n)
     return;
 }*/
 
-void print_bigint(const bigint& n) {
+/*void print_bigint(const bigint& n) {
     int g = 0;
     for (int i = 0; i < (int) n.v.size(); i++)
     {
@@ -246,4 +243,4 @@ void print_bigint(const bigint& n) {
     for(; i > -1; i--) putchar_unlocked('0'+d[i]);
     putchar_unlocked('\n');
     return;
-}
+}*/
