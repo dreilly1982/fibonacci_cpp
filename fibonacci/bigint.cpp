@@ -58,16 +58,16 @@ bigint bigint::operator+(const bigint& obj2)
 			// Long addition.  Start small, then carry over to larger
 			if (i == 0)
 			{
-				result[i] = this->v[i] + obj2.v[i];
+				result[i] = (u128b) this->v[i] + obj2.v[i];
 			}
 			else
 			{
-				result[i] = this->v[i] + obj2.v[i] + (result[i-1] >> 64);
+				result[i] = (u128b) this->v[i] + obj2.v[i] + (result[i-1] >> 64);
 			}
 		}
 		
-		for (; i < (int) obj2.v.size(); ++i) result[i] = obj2.v[i] + (result[i-1] >> 64);
-		if (result[i-1] > u64b_max) result.push_back(result[i-1] >> 64);
+		for (; i < (int) obj2.v.size(); ++i) result[i] = (u128b) obj2.v[i] + (result[i-1] >> 64);
+		if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);
     }
     else if(this->v.size() > obj2.v.size())
     {
@@ -77,16 +77,16 @@ bigint bigint::operator+(const bigint& obj2)
 			// Long addition.  Start small, then carry over to larger
 			if (i == 0)
 			{
-				result[i] = this->v[i] + obj2.v[i];
+				result[i] = (u128b) this->v[i] + obj2.v[i];
 			}
 			else
 			{
-				result[i] = this->v[i] + obj2.v[i] + (result[i-1] >> 64);
+				result[i] = (u128b) this->v[i] + obj2.v[i] + (result[i-1] >> 64);
 			}
 		}
 		
-		for (; i < (int) this->v.size(); ++i) result[i] = this->v[i] + (result[i-1] >> 64);
-		if (result[i-1] > u64b_max) result.push_back(result[i-1] >> 64);
+		for (; i < (int) this->v.size(); ++i) result[i] = (u128b) this->v[i] + (result[i-1] >> 64);
+		if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);
     }
     else
     {
@@ -96,15 +96,15 @@ bigint bigint::operator+(const bigint& obj2)
 			// Long addition.  Start small, then carry over to larger
 			if (i == 0)
 			{
-				result[i] = this->v[i] + obj2.v[i];
+				result[i] = (u128b) this->v[i] + obj2.v[i];
 			}
 			else
 			{
-				result[i] = this->v[i] + obj2.v[i] + (result[i-1] >> 64);
+				result[i] = (u128b) this->v[i] + obj2.v[i] + (result[i-1] >> 64);
 			}
 		}
 		
-		if (result[i-1] > u64b_max) result.push_back(result[i-1] >> 64);
+		if (result[i-1] > (u128b) u64b_max) result.push_back(result[i-1] >> 64);
     }
     
     /*for (size_t i = 0; i < result.v.size(); i++)
@@ -130,7 +130,7 @@ bigint bigint::operator+(const bigint& obj2)
 	
 	if (this->v.size() < result.size()) this->v.resize(result.size());
     
-    for (int i = 0; i < (int) result.size(); i++)
+    for (int i = 0; i < (int)result.size(); i++)
     {
         this->v[i] = result[i];
     }
@@ -152,7 +152,7 @@ std::ostream& operator<<(std::ostream& stream, const bigint& n)
     
     // Split integer into an array where each element matches the proper place
     // Tens, hundreds, thousands, etc..
-    for(int l = n.v.size() - 1; l > -1; l--)
+    for(int l = (int)n.v.size() - 1; l > -1; l--)
     {
         if (l == 0)
         {
@@ -202,7 +202,7 @@ std::ostream& operator<<(std::ostream& stream, const bigint& n)
     return;
 }*/
 
-/*void print_bigint(const bigint& n) {
+void print_bigint(const bigint& n) {
     int g = 0;
     for (int i = 0; i < (int) n.v.size(); i++)
     {
@@ -243,4 +243,4 @@ std::ostream& operator<<(std::ostream& stream, const bigint& n)
     for(; i > -1; i--) putchar_unlocked('0'+d[i]);
     putchar_unlocked('\n');
     return;
-}*/
+}
