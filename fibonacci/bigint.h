@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include <stdint.h>
 
 typedef unsigned long long u64b;
 typedef __uint128_t u128b;
@@ -19,7 +20,7 @@ typedef __uint128_t u128b;
 class bigint {
     
     // Split into multiple 64-bit integers in a vector
-    
+    std::vector<u64b> normalize_long(std::vector<u64b> n);
     
 public:
     std::vector<u64b> v;
